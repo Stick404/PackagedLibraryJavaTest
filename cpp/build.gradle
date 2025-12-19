@@ -1,20 +1,25 @@
+import org.gradle.internal.jvm.Jvm
+
 plugins {
     id 'cpp-library'
-}
+} // https://github.com/vladsoroka/GradleJniSample/blob/master/hello/build.gradle
 
 group = 'testing.stick404.mindlesstoys.com'
 version = '1.0-SNAPSHOT'
+library {
+    targetMachines.addAll(machines.windows.x86_64, machines.linux.x86_64)
 
-repositories {
-    mavenCentral()
-}
+    /*binaries.configureEach { CppBinary binary ->
+        def compileTask = binary.compileTask.get()
+        compileTask.includes.from("${Jvm.current().javaHome}/include")
 
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
-
-test {
-    useJUnitPlatform()
+        def osFamily = binary.targetPlatform.targetMachine.operatingSystemFamily
+        if (osFamily.macOs) {
+            compileTask.includes.from("${Jvm.current().javaHome}/include/darwin")
+        } else if (osFamily.linux) {
+            compileTask.includes.from("${Jvm.current().javaHome}/include/linux")
+        } else if (osFamily.windows) {
+            compileTask.includes.from("${Jvm.current().javaHome}/include/win32")
+        }
+    }*/
 }

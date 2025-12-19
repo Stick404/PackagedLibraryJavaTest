@@ -1,12 +1,9 @@
 package testing.stick404.mindlesstoys.com;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,7 +15,7 @@ public class Main {
     static {
         try {
             //InputStream input = Main.class.getResourceAsStream("cpp/libtest.so");
-            InputStream input = Main.class.getClassLoader().getResourceAsStream("cpp/libtest.so");
+            InputStream input = Main.class.getClassLoader().getResourceAsStream("libcpp.so");
             System.out.println(input == null);
             Path tempPath = Files.createTempFile("library", ".so");
             Files.copy(input, tempPath, StandardCopyOption.REPLACE_EXISTING);

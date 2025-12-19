@@ -14,8 +14,13 @@ sourceSets {
     main {
         resources {
             srcDirs "src/main/resources"
+            srcDirs "cpp/build/lib/main/release/linux"
         }
     }
+}
+
+tasks.named("build") {
+    it.doFirst {}
 }
 
 tasks.named("processResources") {
