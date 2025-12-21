@@ -15,16 +15,32 @@ public class Main {
     static {
         try {
             //InputStream input = Main.class.getResourceAsStream("cpp/libtest.so");
-            InputStream input = Main.class.getClassLoader().getResourceAsStream("libcpp.so");
-            System.out.println(input == null);
-            Path tempPath = Files.createTempFile("library", ".so");
+            String file;
+            String os = System.getProperty("os.name").toLowerCase();
+            if (os.contains("win")) file = ".dll";
+            else if (os.contains("lin")) file = ".so";
+            else file = "uh oh";
+
+            if (Main.class.getClassLoader().getResource("lib" + file) != null){
+                System.out.println("Could find library!");
+            } else {
+                System.out.println("\nCould not find library! \n");
+            }
+
+            InputStream input = Main.class.getClassLoader().getResourceAsStream("\\lib" + file);
+            if (input == null) {
+                throw new RuntimeException("Could not find lib" + file + "!");
+            }
+            Path tempPath = Files.createTempFile("library", file);
             Files.copy(input, tempPath, StandardCopyOption.REPLACE_EXISTING);
             System.load(tempPath.toString());
-
             input.close();
+
             //System.load(Main.class.getClassLoader().getResource("cpp/libtest.so").toURI().getPath());
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            System.out.println(" \n==== Loaded Library! ==== \n");
         }
     }
 
@@ -66,7 +82,7 @@ public class Main {
 
         try (Arena arena = Arena.ofConfined()) {
             var cStringFromAllocator = arena.allocateFrom("Hello World" + "\n");
-            //printf.invoke(cStringFromAllocator);
+            printf.invoke(cStringFromAllocator);
         }
 
         MethodHandle addTest = Linker.nativeLinker().downcallHandle(
@@ -78,7 +94,7 @@ public class Main {
         System.out.println(ret);
     }
 
-    public static MemorySegment lookup(String symbol) {
+    public static MemorySegment lookup(final String symbol) {
         return Linker.nativeLinker().defaultLookup().find(symbol)
                 .or(() -> SymbolLookup.loaderLookup().find(symbol))
                 .orElseThrow();
