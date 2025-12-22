@@ -17,7 +17,7 @@ public class Main {
             //InputStream input = Main.class.getResourceAsStream("cpp/libtest.so");
             String file;
             String os = System.getProperty("os.name").toLowerCase();
-            if (os.contains("win")) file = ".dll";
+            if (os.contains("win")) file = ".lib";
             else if (os.contains("lin")) file = ".so";
             else file = "uh oh";
 
@@ -27,7 +27,7 @@ public class Main {
                 System.out.println("\nCould not find library! \n");
             }
 
-            InputStream input = Main.class.getClassLoader().getResourceAsStream("\\lib" + file);
+            InputStream input = Main.class.getClassLoader().getResourceAsStream("lib" + file);
             if (input == null) {
                 throw new RuntimeException("Could not find lib" + file + "!");
             }
@@ -36,15 +36,14 @@ public class Main {
             System.load(tempPath.toString());
             input.close();
 
+            System.out.println(" \n==== Loaded Library! ==== \n");
             //System.load(Main.class.getClassLoader().getResource("cpp/libtest.so").toURI().getPath());
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } finally {
-            System.out.println(" \n==== Loaded Library! ==== \n");
         }
     }
 
-    public static void main(String[] args) throws Throwable {
+    static void main() throws Throwable {
         // 1. Get a lookup object for the standard C library
         SymbolLookup stdlib = Linker.nativeLinker().defaultLookup();
         System.out.println(Linker.nativeLinker().canonicalLayouts());

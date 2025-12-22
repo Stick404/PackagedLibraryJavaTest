@@ -6,13 +6,15 @@ plugins {
 
 group = 'testing.stick404.mindlesstoys.com'
 version = '1.0-SNAPSHOT'
-library {
+/*library {
     targetMachines.addAll(machines.windows.x86_64, machines.linux.x86_64)
 
-    /*binaries.configureEach { CppBinary binary ->
+    binaries.configureEach { CppBinary binary ->
         def compileTask = binary.compileTask.get()
         compileTask.includes.from("${Jvm.current().javaHome}/include")
 
+        //compileTask.source.from fileTree(dir: "src/main/cpp", include: "**//*.cpp")
+                /*
         def osFamily = binary.targetPlatform.targetMachine.operatingSystemFamily
         if (osFamily.macOs) {
             compileTask.includes.from("${Jvm.current().javaHome}/include/darwin")
@@ -21,5 +23,7 @@ library {
         } else if (osFamily.windows) {
             compileTask.includes.from("${Jvm.current().javaHome}/include/win32")
         }
-    }*/
-}
+
+
+    }
+}*/
