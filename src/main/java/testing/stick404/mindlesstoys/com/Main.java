@@ -88,7 +88,7 @@ public class Main {
                 lookup("add"),
                 FunctionDescriptor.of(JAVA_INT, JAVA_INT, JAVA_INT)
         );
-H
+
         int ret = (int) addTest.invoke(5, 5);
         System.out.println(ret);
     }
