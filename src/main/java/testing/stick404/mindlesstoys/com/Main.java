@@ -17,7 +17,7 @@ public class Main {
             //InputStream input = Main.class.getResourceAsStream("cpp/libtest.so");
             String file;
             String os = System.getProperty("os.name").toLowerCase();
-            if (os.contains("win")) file = ".lib";
+            if (os.contains("win")) file = ".dll";
             else if (os.contains("lin")) file = ".so";
             else file = "uh oh";
 
@@ -88,7 +88,7 @@ public class Main {
                 lookup("add"),
                 FunctionDescriptor.of(JAVA_INT, JAVA_INT, JAVA_INT)
         );
-
+H
         int ret = (int) addTest.invoke(5, 5);
         System.out.println(ret);
     }

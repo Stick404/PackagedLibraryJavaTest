@@ -1,8 +1,9 @@
 # THIS IS WIP, DO NOT USE
 However, if you want to build/use this, here's the steps:
-- Install a C++ tool chain (VScpp, Clang, Gcc all work)
-- Compile the Cpp gradle, this should just be a task under Gradle > Cpp > Build
-- Move the built .so or .dll to the Java Resources files. Make sure the file's name is named lib.dll or lib.so
-- Finally, you can build/run the Java project with either Java 24 or 25, but 25 is recommended
+- Install a Dlang compiler
+- Install gcc
+- Compile lib.d to an .obj/.o file (`dmd -c ./d/src/d/lib.d`)
+- Then compile the .o* file either a .so or .dll
+- Move the fully compiled file to `./src/main/resources`
 
-Also as a word of warning: **this may not work on Windows**
+As a word of warning: **This is untested in several platforms**
