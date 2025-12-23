@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/inner-package-test
+inner-package-test.so
+inner-package-test.dylib
+inner-package-test.dll
+inner-package-test.a
+inner-package-test.lib
+inner-package-test-test-*
+*.exe
+*.pdb
+*.o
+*.obj
+*.lst
