@@ -12,6 +12,7 @@ import java.nio.file.StandardCopyOption;
 import static java.lang.foreign.ValueLayout.*;
 
 public class Main {
+    // TODO: https://www.slingacademy.com/article/cross-compiling-go-programs-for-any-os/
     static {
         try {
             //InputStream input = Main.class.getResourceAsStream("cpp/libtest.so");
@@ -21,13 +22,13 @@ public class Main {
             else if (os.contains("lin")) file = ".so";
             else file = "uh oh";
 
-            if (Main.class.getClassLoader().getResource("lib" + file) != null){
+            if (Main.class.getClassLoader().getResource("learning" + file) != null){
                 System.out.println("Could find library!");
             } else {
                 System.out.println("\nCould not find library! \n");
             }
 
-            InputStream input = Main.class.getClassLoader().getResourceAsStream("lib" + file);
+            InputStream input = Main.class.getClassLoader().getResourceAsStream("learning" + file);
             if (input == null) {
                 throw new RuntimeException("Could not find lib" + file + "!");
             }
@@ -85,12 +86,33 @@ public class Main {
         }
 
         MethodHandle addTest = Linker.nativeLinker().downcallHandle(
-                lookup("add"),
+                lookup("Add"),
                 FunctionDescriptor.of(JAVA_INT, JAVA_INT, JAVA_INT)
         );
 
         int ret = (int) addTest.invoke(5, 5);
         System.out.println(ret);
+
+        /*MethodHandle stringCopyTest = Linker.nativeLinker().downcallHandle(
+                lookup("testingStrings"),
+                FunctionDescriptor.ofVoid(ADDRESS, ADDRESS)
+        );
+
+        try (Arena arena = Arena.ofConfined()) {
+            var loc = arena.allocateFrom("Hello Dlang!");
+            var to = arena.allocate(50);
+
+            stringCopyTest.invoke(to, loc);
+
+            for (int i = 0 ; i < 50 ; i++){
+                int z = (int) JAVA_BYTE.arrayElementVarHandle().get(to, 0, i);
+                System.out.print((char) z);
+                //System.out.println((int) (char) z);
+            }
+            System.out.println();
+        }
+         */
+        System.out.println("We should now be done!");
     }
 
     public static MemorySegment lookup(final String symbol) {
